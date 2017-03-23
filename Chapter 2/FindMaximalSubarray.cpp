@@ -4,6 +4,10 @@
 
 using namespace std;
 
+int max_of_three(int a, int b, int c) {
+	return max(a, b) > c ? max(a, b) : c;
+}
+
 // 1. Use DP
 int find_maximal_subarray1(const vector<int>& v) {
 	int maxSum = 0;
@@ -25,8 +29,30 @@ int find_maximal_subarray1(const vector<int>& v) {
 }
 
 // 2. Use divide and conquer
-int find_maximal_subarray2(const vector<int>& v, int start, int end) {
 
+int find_maximal_corssing(const vector<int>& v, int begin, int mid, int end) {
+	int curSum = 0;
+	int maxSum = 0;
+	for (int i = mid; 0 =< i; i--) {
+		curSum += v[i];
+		maxSum = max(maxSum, curSum);		
+	}
+	curSum = max(maxSum, curSum);
+	for (int i = mid + 1; i <= end; i++) {
+		curSum += v[i];
+		maxSum = max(maxSum, curSum);
+	}
+	return maxSum;
+
+}
+
+int find_maximal_subarray2(const vector<int>& v, int start, int end) {
+	if (start == end) {
+		return v[start];
+	}
+	int mid = start + (end - start) / 2;
+
+	return max_of_three(find_maximal_subarray2(), find_maximal_subarray2(), find_maximal_crossing());
 }
 
 int main() {
